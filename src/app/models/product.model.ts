@@ -10,3 +10,8 @@ export interface Product {
   description: string;
   category: Category;
 }
+
+export interface CreteProductDTO extends Omit<Product,'id'| 'category'> {
+  categoryId:number;
+}
+
