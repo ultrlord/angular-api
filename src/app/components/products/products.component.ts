@@ -83,6 +83,16 @@ export class ProductsComponent implements OnInit {
     this,this.productsService.update(id,changes).subscribe(data => {
       const ProductIndex= this.products.findIndex(item=> item.id===this.productChosen.id);
       this.products[ProductIndex]=data;
+      this.productChosen=data;
     })
+  }
+  deleteProduct(){
+    const id = this.productChosen.id;
+    this.productsService.delete(id).subscribe(()=>{
+      const ProductIndex= this.products.findIndex(item=> item.id===this.productChosen.id);
+      this.products.splice(ProductIndex,1);
+      this.showProductDetail=false;
+    });
+
   }
 }
