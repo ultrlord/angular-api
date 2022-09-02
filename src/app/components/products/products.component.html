@@ -5,7 +5,9 @@
     *ngFor="let product of products"
     (addedProduct)="onAddToShoppingCart($event)"
     (showProduct)="onShowDetail($event)"
+
   ></app-product>
+  <button (click)="learMode()">Cargar mas</button>
 </div>
 <div class="product-detail" [class.active]="showProductDetail">
 <div *ngIf="productChosen">
