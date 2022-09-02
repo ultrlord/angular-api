@@ -1,6 +1,7 @@
+import { Product } from './../../models/product.model';
 import { Component, OnInit } from '@angular/core';
 
-import { CreteProductDTO, Product } from '../../models/product.model';
+import { CreteProductDTO, UpdateProductDTO} from '../../models/product.model';
 
 import { StoreService } from '../../services/store.service';
 import { ProductsService } from '../../services/products.service';
@@ -73,4 +74,15 @@ export class ProductsComponent implements OnInit {
     });
   }
 
+  updateProduct(){
+    const changes: UpdateProductDTO = {
+      title:'nuevo title',
+
+    }
+    const id = this.productChosen.id;
+    this,this.productsService.update(id,changes).subscribe(data => {
+      const ProductIndex= this.products.findIndex(item=> item.id===this.productChosen.id);
+      this.products[ProductIndex]=data;
+    })
+  }
 }
