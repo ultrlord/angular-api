@@ -3,14 +3,14 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { retry } from 'rxjs/operators';
 
 
-
+import {environment} from '../../environments/environment'
 import { CreteProductDTO, Product, UpdateProductDTO } from './../models/product.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductsService {
-  private apiUrl='/api/products';
+  private apiUrl=`${environment.API_URL}/api/products`;
   constructor(
     private http: HttpClient
     ) { }
