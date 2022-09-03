@@ -1,6 +1,6 @@
 import { Product } from './../../models/product.model';
 import { Component, OnInit } from '@angular/core';
-
+import {switchMap} from 'rxjs/operators'
 import { CreteProductDTO, UpdateProductDTO} from '../../models/product.model';
 
 import { StoreService } from '../../services/store.service';
@@ -30,6 +30,7 @@ export class ProductsComponent implements OnInit {
   };
   limit=10;
   offset=0;
+  statusDetail: 'loading' | 'success' | 'error' | 'init' = 'init';
   constructor(
     private storeService: StoreService,
     private productsService: ProductsService
@@ -54,12 +55,27 @@ export class ProductsComponent implements OnInit {
   }
 
   onShowDetail(id:string){
+    this.statusDetail='loading';
     this.productsService.getProduct(id)
       .subscribe(data =>{
         this.toggleProductDetail();
         this.productChosen=data;
-      });
+        this.statusDetail='success';
+      }, error=> {
+        console.log(error);
+        this.statusDetail= 'error';
+      })
 
+  }
+  readAndUpadate(id:string){
+
+    this.productsService.getProduct(id)
+    .pipe(
+      switchMap((product)=> this.productsService.update(product.id,{title:'change'}))
+    )
+    .subscribe(data =>{
+
+    })
   }
   createNewProduct(){
     const product:CreteProductDTO={
