@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
-import { Product } from './models/product.model';
+import { AuthService } from './services/auth.service';
+import { UsersService } from './services/users.service';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +11,13 @@ import { Product } from './models/product.model';
 export class AppComponent {
   imgParent = '';
   showImg = true;
+  token='';
+  constructor(
+    private authService:AuthService,
+    private usersService:UsersService,
 
+
+  ){}
 
   onLoaded(img: string) {
     console.log('log padre', img);
@@ -18,5 +25,28 @@ export class AppComponent {
 
   toggleImg() {
     this.showImg = !this.showImg;
+  }
+  createUser(){
+    this.usersService.create({
+      name: 'juan',
+      email:'juan@gmail.com',
+      password: '123456'
+    }).subscribe(rta => {
+      console.log(rta);
+    });
+  }
+
+  login(){
+    this.authService.login('juan@gmail.com','123456')
+    .subscribe(rta => {
+      console.log( rta.access_token)
+      this.token= rta.access_token;
+    });
+  }
+  getProfile(){
+    this.authService.profile(this.token)
+    .subscribe(profilee => {
+      console.log(profilee);
+    })
   }
 }
